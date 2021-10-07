@@ -16,8 +16,8 @@ os.chdir(pyt)
 def pap(w):
     try:
         os.mkdir(w)
-    except FileExistsError:
-        print('Такая папка же существует')
+    except:
+        print('Что-то не так')
 
 
 ###############################################
@@ -31,7 +31,7 @@ def delete(w):
 
 ###############################################
 # Вывод текущей директории######################
-def dir():
+def dire():
     print(os.getcwd())
 
 
@@ -65,12 +65,14 @@ def per_vv():
 ###############################################
 # Создание пустого файла######################
 def create(w):
-    if w not in (os.listdir(os.getcwd())):
-        file = open(w, "w+")
-        file.close()
-    else:
+    try:
+        if w not in (os.listdir(os.getcwd())):
+            file = open(w, "w+")
+            file.close()
+        else:
+            print("Такой файл уже есть")
+    except:
         print("Такой файл уже есть")
-
 
 ###############################################
 # Запись в файл######################
@@ -206,31 +208,33 @@ def per(w, p):
 ###############################################
 ###Переименование файла########################
 def nam(w, n):
-    pu1 = ''
-    k1 = []
-    filename = w
-    for root, dirnames, filenames in os.walk(pyt):
-        for file in filenames:
-            if file == filename:
-                k1.append(os.path.join(root, file))
-    if len(k1) == 0:
-        print("Такого файла нет")
-    if len(k1) == 1:
-        pu1 = k1[0]
-    if len(k1) > 1:
-        print("Нашлось много таких файлов выберите точный путь")
-        for i in range(len(k1)):
-            print(i + 1, ') ', k1[i])
-        e = int(input('Введите номер пути: '))
-        while e < 0 or e > len(k1):
-            print("Что-то не то")
+    try:
+        pu1 = ''
+        k1 = []
+        filename = w
+        for root, dirnames, filenames in os.walk(pyt):
+            for file in filenames:
+                if file == filename:
+                    k1.append(os.path.join(root, file))
+        if len(k1) == 0:
+            print("Такого файла нет")
+        if len(k1) == 1:
+            pu1 = k1[0]
+        if len(k1) > 1:
+            print("Нашлось много таких файлов выберите точный путь")
+            for i in range(len(k1)):
+                print(i + 1, ') ', k1[i])
             e = int(input('Введите номер пути: '))
-        pu1 = k1[e - 1]
+            while e < 0 or e > len(k1):
+                print("Что-то не то")
+                e = int(input('Введите номер пути: '))
+            pu1 = k1[e - 1]
 
-    path, filename = os.path.split(pu1)
-    xx = os.path.join(path, n)
-    os.rename(pu1, xx)
-
+        path, filename = os.path.split(pu1)
+        xx = os.path.join(path, n)
+        os.rename(pu1, xx)
+    except:
+        print('Что-то не то')
 
 ##############################################
 print(
@@ -250,8 +254,8 @@ while True:
     if q == "delete":
         w = input("Название папки:")
         delete(w)
-    if q == "dir":
-        dir()
+    if q == "dire":
+        dire()
     if q == 'cont':
         cont()
     if q == 'per_vn':
